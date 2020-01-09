@@ -1,0 +1,9 @@
+[Unit]
+Description=LTE service
+Before=network.service
+
+[Service]
+ExecStart=/usr/sbin/quectel_CM -s ctnet
+
+[Install]
+WantedBy=default.target
