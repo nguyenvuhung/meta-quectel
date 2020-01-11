@@ -35,9 +35,9 @@ do_compile () {
 
 do_install () {
     # create the /usr/bin folder in the rootfs give it default permissions
-#    install -d ${D}${bindir}
+    install -d ${D}${bindir}
     # move quectel application to /usr/bin folder. in the rootfs.
- #   install -m 0755 ${S}/quectel-cm ${D}${bindir}
+    install -m 0755 ${S}/quectel-cm ${D}${bindir}
 
     install -d ${D}${systemd_unitdir}/system
     install -m 644 ${WORKDIR}/lte.service ${D}${systemd_unitdir}/system
