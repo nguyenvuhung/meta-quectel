@@ -10,7 +10,7 @@ inherit systemd
 
 QUECTEL_CM_URL = "git://github.com/nguyenvuhung/quectel-CM.git"
 BRANCH = "master"
-SRCREV = "5e3d6f2e8d56f5dc38cf597e61571ee4f394a12d"
+SRCREV = "${AUTOREV}"
 
 SRC_URI = " \
 	${QUECTEL_CM_URL};protocol=git;branch=${BRANCH} \
