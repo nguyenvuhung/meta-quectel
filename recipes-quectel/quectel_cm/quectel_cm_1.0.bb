@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda
 PN = "quectel_cm"
 PR = "r0"
 
-inherit systemd
+inherit update-rc.d systemd
 
 QUECTEL_CM_URL = "git://github.com/nguyenvuhung/quectel-CM.git"
 BRANCH = "master"
@@ -18,6 +18,7 @@ SRC_URI = " \
 
 SRC_URI_append = " \
 	file://lte.service \
+	file://lte_enable \
 	"
 
 S = "${WORKDIR}/git"
@@ -34,6 +35,10 @@ do_compile () {
 }
 
 do_install () {
+    # Configure for sysinit
+    install -d ${D}/${sysconfdir}/init.d
+    install -m 755 ${WORKDIR}/lte_enable ${D}${sysconfdir}/init.d
+
     # create the /usr/bin folder in the rootfs give it default permissions
     install -d ${D}${bindir}
     # move quectel application to /usr/bin folder. in the rootfs.
@@ -42,6 +47,9 @@ do_install () {
     install -d ${D}${systemd_unitdir}/system
     install -m 644 ${WORKDIR}/lte.service ${D}${systemd_unitdir}/system
 }
+
+INITSCRIPT_NAME = "lte_enable"
+INITSCRIPT_PARAMS = "defaults 80"
 
 FILES_${PN} += "${libdir}/lib*.so"
 FILES_${PN}-dev = "${libdir}/*.so"
