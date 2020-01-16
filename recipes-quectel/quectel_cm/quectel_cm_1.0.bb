@@ -19,6 +19,7 @@ SRC_URI = " \
 SRC_URI_append = " \
 	file://lte.service \
 	file://lte_enable \
+    file://lte.rules \
 	"
 
 S = "${WORKDIR}/git"
@@ -35,17 +36,22 @@ do_compile () {
 }
 
 do_install () {
-    # Configure for sysinit
-    install -d ${D}/${sysconfdir}/init.d
-    install -m 755 ${WORKDIR}/lte_enable ${D}${sysconfdir}/init.d
-
     # create the /usr/bin folder in the rootfs give it default permissions
     install -d ${D}${bindir}
     # move quectel application to /usr/bin folder. in the rootfs.
     install -m 0755 ${S}/quectel-cm ${D}${bindir}
 
+  if ${@bb.utils.contains('DISTRO_FEATURES','systemd','true','false',d)}; then
     install -d ${D}${systemd_unitdir}/system
     install -m 644 ${WORKDIR}/lte.service ${D}${systemd_unitdir}/system
+
+    install -d ${D}${sysconfdir}/udev/rules.d
+    install -m 0644 ${WORKDIR}/lte.rules ${D}${sysconfdir}/udev/rules.d/
+  else
+    # Configure for sysinit
+    install -d ${D}/${sysconfdir}/init.d
+    install -m 755 ${WORKDIR}/lte_enable ${D}${sysconfdir}/init.d
+  fi
 }
 
 INITSCRIPT_NAME = "lte_enable"

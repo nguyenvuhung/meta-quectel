@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="cdc-wdm0", SYMLINK="cdc-wdm0", TAG+="systemd", ENV{SYSTEMD_WANTS}+="lte.service"
