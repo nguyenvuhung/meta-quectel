@@ -1,9 +1,9 @@
 DESCRIPTION = "The connect manager is provided by Quectel to enable LTE network"
-SECTION = "quectel_cm"
+SECTION = "quectel-cm"
 LICENSE = "MIT" 
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-PN = "quectel_cm"
+PN = "quectel-cm"
 PR = "r0"
 
 inherit update-rc.d systemd
